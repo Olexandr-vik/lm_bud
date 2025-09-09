@@ -1,0 +1,4 @@
+deployment:
+  tasks:
+    - /bin/rsync -a --delete --exclude=".git" ~/repositories/lm_bud/ ~/public_html/
+
