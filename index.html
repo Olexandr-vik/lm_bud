@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>LM bud – Будівництво та дизайн</title>
+  <meta name="description" content="LM bud – сучасні рішення в будівництві. Проекти, дизайн, ремонт, нові технології.">
+  <meta name="keywords" content="будівництво, ремонт, дизайн, LM bud, архітектура">
+  <meta name="author" content="LM bud">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Наш CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body class="bg-black text-white">
+
+  <!-- Hero Section -->
+  <section class="relative w-full h-screen overflow-hidden">
+    <!-- Відео -->
+    <video id="bg-video" autoplay muted playsinline
+      class="absolute top-0 left-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000"></video>
+
+    <!-- Затемнення -->
+    <div class="absolute inset-0 bg-black/40 z-10"></div>
+
+    <!-- Шапка -->
+    <header class="absolute top-0 left-0 w-full flex justify-between items-center p-6 z-20">
+      <!-- Логотип -->
+      <div class="flex items-center">
+        <img src="img/logo.png" alt="LM bud" class="h-10 w-auto">
+      </div>
+
+      <!-- Соцмережі -->
+      <div class="flex space-x-4 text-white text-xl">
+        <a href="#"><img src="img/icons/web.svg" alt="web" class="h-6"></a>
+        <a href="#"><img src="img/icons/fb.svg" alt="facebook" class="h-6"></a>
+        <a href="#"><img src="img/icons/insta.svg" alt="instagram" class="h-6"></a>
+      </div>
+    </header>
+
+    <!-- Індикатор -->
+    <div id="video-indicator" class="absolute bottom-6 left-6 text-white text-sm tracking-widest z-20">
+      01 / 04
+    </div>
+  </section>
+
+  <!-- JS -->
+  <script src="js/main.js"></script>
+</body>
+</html>
