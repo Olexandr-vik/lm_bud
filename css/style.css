@@ -1,57 +1,30 @@
-const videoElement = document.getElementById("bg-video");
-const indicator = document.getElementById("video-indicator");
-
-// Масив відео
-const videos = [
-  { src: "video/intro-1.mp4", code: "intro-1" },
-  { src: "video/intro-2.mp4", code: "intro-2" },
-  { src: "video/intro-3.mp4", code: "intro-3" },
-  { src: "video/intro-4.mp4", code: "intro-4" }
-];
-
-let currentIndex = -1;
-
-function playRandomVideo() {
-  let newIndex;
-  do {
-    newIndex = Math.floor(Math.random() * videos.length);
-  } while (newIndex === currentIndex);
-
-  currentIndex = newIndex;
-  const currentVideo = videos[currentIndex];
-
-  const tempVideo = document.createElement("video");
-  tempVideo.src = currentVideo.src;
-
-  tempVideo.onloadedmetadata = () => {
-    const duration = tempVideo.duration;
-
-    // Якщо відео коротше 2 секунд – пропускаємо
-    if (duration <= 2) {
-      playRandomVideo();
-      return;
-    }
-
-    const randomStart = Math.random() * (duration - 2);
-
-    videoElement.src = currentVideo.src;
-    videoElement.currentTime = randomStart;
-
-    videoElement.classList.remove("opacity-0");
-    videoElement.classList.add("opacity-100");
-
-    // Індикатор
-    indicator.innerHTML = `
-      <div>${(currentIndex+1).toString().padStart(2, '0')} / ${videos.length}</div>
-      <div class="text-xs text-gray-300">${currentVideo.code}</div>
-    `;
-
-    setTimeout(() => {
-      videoElement.classList.remove("opacity-100");
-      videoElement.classList.add("opacity-0");
-      setTimeout(playRandomVideo, 1000);
-    }, 2000);
-  };
+/* Custom styles for the "Про нас" section */
+.about-section {
+  background: linear-gradient(135deg, #fee2e2 0%, #fef3c7 100%);
+  color: #1f2937; /* gray-800 */
 }
 
-playRandomVideo();
+.welcome-title {
+  border-left: 8px solid #ef4444; /* red-500 */
+  padding-left: 1rem;
+  line-height: 1.1;
+  color: #111827; /* gray-900 */
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 0.75rem; /* rounded-xl */
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card h4 {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
