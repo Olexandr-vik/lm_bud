@@ -42,6 +42,37 @@ function playRandomVideo() {
   };
 }
 
+// Ефект переходу між відео
+function startTransition() {
+  const oldVideo = document.getElementById('old-video');
+  const bar = document.getElementById('transition-bar');
+  let progress = 0;
+  const duration = 2000; // мс
+  const fps = 60;
+  const step = 1000 / fps;
+  const height = oldVideo.offsetHeight;
+
+  function animate() {
+    progress += step;
+    const percent = Math.min(progress / duration, 1);
+    const px = Math.floor(height * (1 - percent));
+    oldVideo.style.clipPath = `inset(0 0 ${px}px 0)`;
+    bar.style.bottom = `${px}px`;
+    if (percent < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      oldVideo.style.display = 'none';
+      bar.style.display = 'none';
+    }
+  }
+  animate();
+}
+
+// Автоматичний запуск ефекту при завантаженні сторінки (для демонстрації)
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(startTransition, 1000); // Затримка для старту ефекту
+});
+
 const directions = ["up", "down", "diagonal"];
 const animationDuration = 1000; // ms
 

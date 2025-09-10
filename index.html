@@ -23,17 +23,14 @@
   <!-- Hero Section -->
   <section class="relative w-full h-screen overflow-hidden">
     <!-- Нове відео -->
-    <video id="new-video" src="video/new.mp4" autoplay muted playsinline
+    <video id="new-video" src="video/intro-2.mp4" autoplay muted playsinline
       class="absolute top-0 left-0 w-full h-full object-cover z-0"></video>
     <!-- Старе відео з маскою -->
-    <video id="old-video" src="video/old.mp4" autoplay muted playsinline
+    <video id="old-video" src="video/intro-1.mp4" autoplay muted playsinline
       class="absolute top-0 left-0 w-full h-full object-cover z-10 transition-all duration-1000"
       style="clip-path: inset(0 0 0 0);"></video>
     <!-- Анімована смужка -->
     <div id="transition-bar" class="absolute left-0 w-full h-1 bg-white z-20" style="bottom: 0;"></div>
-
-    <!-- Смуга для переходів -->
-    <div class="strip"></div>
 
     <!-- Затемнення -->
     <div class="absolute inset-0 bg-black/40 z-10"></div>
@@ -73,37 +70,6 @@
 
   <!-- JS -->
   <script src="js/main.js"></script>
-  <script>
-    // filepath: vscode-vfs://github/Olexandr-vik/lm_bud/index.html
-    // Ефект переходу
-    function startTransition() {
-      const oldVideo = document.getElementById('old-video');
-      const bar = document.getElementById('transition-bar');
-      let progress = 0;
-      const duration = 2000; // мс
-      const fps = 60;
-      const step = 1000 / fps;
-      const height = oldVideo.offsetHeight;
-
-      function animate() {
-        progress += step;
-        const percent = Math.min(progress / duration, 1);
-        const px = Math.floor(height * (1 - percent));
-        oldVideo.style.clipPath = `inset(0 0 ${px}px 0)`;
-        bar.style.bottom = `${px}px`;
-        if (percent < 1) {
-          requestAnimationFrame(animate);
-        } else {
-          oldVideo.style.display = 'none';
-          bar.style.display = 'none';
-        }
-      }
-      animate();
-    }
-
-    // Викликати startTransition() коли потрібно змінити відео
-    // startTransition();
-  </script>
 </body>
 </html>
 
