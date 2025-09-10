@@ -1,4 +1,5 @@
 const videoElement = document.getElementById("bg-video");
+const strip = document.querySelector(".strip");
 
 // Масив відео
 const videos = [
@@ -35,17 +36,37 @@ function playRandomVideo() {
 
     videoElement.src = currentVideo.src;
     videoElement.currentTime = randomStart;
-
     videoElement.classList.remove("opacity-0");
     videoElement.classList.add("opacity-100");
-
-
-    setTimeout(() => {
-      videoElement.classList.remove("opacity-100");
-      videoElement.classList.add("opacity-0");
-      setTimeout(playRandomVideo, 1000);
-    }, 2000);
+    videoElement.play();
   };
 }
 
+const directions = ["up", "down", "diagonal"];
+const animationDuration = 1000; // ms
+
+function startTransition() {
+  const dir = directions[Math.floor(Math.random() * directions.length)];
+  strip.classList.add(dir);
+
+  setTimeout(() => {
+    playRandomVideo();
+  }, animationDuration / 2);
+
+  strip.addEventListener(
+    "animationend",
+    () => {
+      strip.className = "strip";
+      scheduleNext();
+    },
+    { once: true }
+  );
+}
+
+function scheduleNext() {
+  setTimeout(startTransition, 2000);
+}
+
 playRandomVideo();
+scheduleNext();
+
