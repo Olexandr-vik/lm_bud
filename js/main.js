@@ -1,5 +1,4 @@
 const videoElement = document.getElementById("bg-video");
-const indicator = document.getElementById("video-indicator");
 
 // Масив відео
 const videos = [
@@ -40,11 +39,6 @@ function playRandomVideo() {
     videoElement.classList.remove("opacity-0");
     videoElement.classList.add("opacity-100");
 
-    // Індикатор
-    indicator.innerHTML = `
-      <div>${(currentIndex+1).toString().padStart(2, '0')} / ${videos.length}</div>
-      <div class="text-xs text-gray-300">${currentVideo.code}</div>
-    `;
 
     setTimeout(() => {
       videoElement.classList.remove("opacity-100");
