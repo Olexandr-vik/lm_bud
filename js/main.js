@@ -3,101 +3,77 @@ const strip = document.querySelector(".strip");
 
 // Масив відео
 const videos = [
-  { src: "video/intro-1.mp4", code: "intro-1" },
-  { src: "video/intro-2.mp4", code: "intro-2" },
-  { src: "video/intro-3.mp4", code: "intro-3" },
-  { src: "video/intro-4.mp4", code: "intro-4" }
+  "video/intro-1.mp4",
+  "video/intro-2.mp4",
+  "video/intro-3.mp4",
+  "video/intro-4.mp4"
 ];
 
-let currentIndex = -1;
+const videoMain = document.getElementById('video-main');
+const videoNext = document.getElementById('video-next');
+const bar = document.getElementById('transition-bar');
 
-function playRandomVideo() {
-  let newIndex;
-  do {
-    newIndex = Math.floor(Math.random() * videos.length);
-  } while (newIndex === currentIndex);
-
-  currentIndex = newIndex;
-  const currentVideo = videos[currentIndex];
-
-  const tempVideo = document.createElement("video");
-  tempVideo.src = currentVideo.src;
-
-  tempVideo.onloadedmetadata = () => {
-    const duration = tempVideo.duration;
-
-    // Якщо відео коротше 2 секунд – пропускаємо
-    if (duration <= 2) {
-      playRandomVideo();
-      return;
-    }
-
-    const randomStart = Math.random() * (duration - 2);
-
-    videoElement.src = currentVideo.src;
-    videoElement.currentTime = randomStart;
-    videoElement.classList.remove("opacity-0");
-    videoElement.classList.add("opacity-100");
-    videoElement.play();
-  };
+// Вибір випадкового відео
+function getRandomVideo(exclude) {
+  let filtered = videos.filter(v => v !== exclude);
+  return filtered[Math.floor(Math.random() * filtered.length)];
 }
 
-// Ефект переходу між відео
-function startTransition() {
-  const oldVideo = document.getElementById('old-video');
-  const bar = document.getElementById('transition-bar');
+// Вибір випадкового часу (від 5 до 15 секунд)
+function getRandomTime() {
+  return Math.floor(Math.random() * 10000) + 5000;
+}
+
+// Ефект переходу (слайд знизу вверх)
+function startTransition(nextSrc) {
+  videoNext.src = nextSrc;
+  videoNext.currentTime = 0;
+  videoNext.style.display = 'block';
+  bar.style.display = 'block';
+
   let progress = 0;
   const duration = 2000; // мс
   const fps = 60;
   const step = 1000 / fps;
-  const height = oldVideo.offsetHeight;
+  const height = videoMain.offsetHeight;
 
   function animate() {
     progress += step;
     const percent = Math.min(progress / duration, 1);
     const px = Math.floor(height * (1 - percent));
-    oldVideo.style.clipPath = `inset(0 0 ${px}px 0)`;
+    videoMain.style.clipPath = `inset(0 0 ${px}px 0)`;
     bar.style.bottom = `${px}px`;
     if (percent < 1) {
       requestAnimationFrame(animate);
     } else {
-      oldVideo.style.display = 'none';
+      videoMain.src = nextSrc;
+      videoMain.style.clipPath = 'inset(0 0 0 0)';
+      videoNext.style.display = 'none';
       bar.style.display = 'none';
+      scheduleNext();
     }
   }
   animate();
 }
 
-// Автоматичний запуск ефекту при завантаженні сторінки (для демонстрації)
-window.addEventListener('DOMContentLoaded', () => {
-  setTimeout(startTransition, 1000); // Затримка для старту ефекту
-});
-
-const directions = ["up", "down", "diagonal"];
-const animationDuration = 1000; // ms
-
-function startTransition() {
-  const dir = directions[Math.floor(Math.random() * directions.length)];
-  strip.classList.add(dir);
-
-  setTimeout(() => {
-    playRandomVideo();
-  }, animationDuration / 2);
-
-  strip.addEventListener(
-    "animationend",
-    () => {
-      strip.className = "strip";
-      scheduleNext();
-    },
-    { once: true }
-  );
+// Запуск першого відео
+function startRandomVideo() {
+  const first = getRandomVideo();
+  videoMain.src = first;
+  videoMain.onloadeddata = () => {
+    scheduleNext();
+  };
 }
 
+// Запланувати наступний перехід
 function scheduleNext() {
-  setTimeout(startTransition, 2000);
+  const next = getRandomVideo(videoMain.src);
+  const time = getRandomTime();
+  setTimeout(() => {
+    startTransition(next);
+  }, time);
 }
 
-playRandomVideo();
-scheduleNext();
+// Ініціалізація
+window.addEventListener('DOMContentLoaded', startRandomVideo);
 
